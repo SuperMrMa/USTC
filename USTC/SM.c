@@ -31,7 +31,7 @@ void deal_ten_thousand(ORDER_OF_MAGNITUDE_E e_magnitude, int decimals_flag, unsi
         merchant = merchant / divisor;
         switch (merchant) {
         case 0:
-            if (!flag && true_flag && !decimals_flag) {
+            if (!flag && true_flag && !decimals_flag) { //如果前面没有输出此时，不考虑输出0
                printf_s("零");
                 flag = 1;
             }
