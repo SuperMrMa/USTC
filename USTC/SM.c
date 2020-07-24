@@ -19,7 +19,7 @@ ORDER_OF_MAGNITUDE_E judge_magnitude(unsigned long long int num)
         flag++;
     } while (merchant);
     return --flag;
-}
+} //判断它的量级
 void deal_ten_thousand(ORDER_OF_MAGNITUDE_E e_magnitude, int decimals_flag, unsigned int num)
 {
     unsigned int redminer = 0;// 余数
