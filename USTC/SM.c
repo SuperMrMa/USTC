@@ -1,117 +1,124 @@
+
+/*1、中文大写金额数字前应标明“人民币”字样。中文大写金额数字应用壹、贰、叁、肆、伍、陆、柒、捌、玖、拾、佰、仟、万、亿、元、角、分、零、整等字样填写。（30分） 
+
+2、中文大写金额数字到“元”为止的，在“元”之后，应写“整字，如￥ 532.00应写成“人民币伍佰叁拾贰元整”。在”角“和”分“后面不写”整字。（30分） 
+
+3、阿拉伯数字中间有“0”时，中文大写要写“零”字，阿拉伯数字中间连续有几个“0”时，中文大写金额中间只写一个“零”字，如￥6007.14，应写成“人民币陆仟零柒元壹角肆分“。
+*/
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
 
 typedef enum {
-    CONSTANT_E = 0, // С��һ��ĳ���
-    TEN_THOUSAND_E = 1,     //��
-    HUNDRED_MILLION_E = 2,  //��
-    OMEN_E = 3              //��
+    CONSTANT_E = 0, // 小于一万的常数
+    TEN_THOUSAND_E = 1,     //万
+    HUNDRED_MILLION_E = 2,  //亿
+    OMEN_E = 3              //兆
 }ORDER_OF_MAGNITUDE_E;
 
 ORDER_OF_MAGNITUDE_E judge_magnitude(unsigned long long int num)
 {
-    unsigned long long int magnitude = 10000;// ����
-    unsigned long long int merchant = num; //��
+    unsigned long long int magnitude = 10000;// 量级
+    unsigned long long int merchant = num; //商
     unsigned int flag = 0;
     do {
         merchant = merchant / magnitude;
         flag++;
     } while (merchant);
     return --flag;
-} //�ж���������
+} //判断它的量级
 void deal_ten_thousand(ORDER_OF_MAGNITUDE_E e_magnitude, int decimals_flag, unsigned int num)
 {
-    unsigned int redminer = 0;// ����
-    unsigned int divisor = 1000; //������
-    unsigned int merchant = num; //��
+    unsigned int redminer = 0;// 余数
+    unsigned int divisor = 1000; //被除数
+    unsigned int merchant = num; //商
     unsigned int flag = 0, true_flag = 0;
     do {
         redminer = merchant % divisor;
         merchant = merchant / divisor;
         switch (merchant) {
         case 0:
-            if (!flag && true_flag && !decimals_flag) { //���ǰ��û�������ʱ�����������0
-               printf_s("��");
+            if (!flag && true_flag && !decimals_flag) { //如果前面没有输出此时，不考虑输出0
+               printf_s("零");
                 flag = 1;
             }
             break;
         case 1:
             if (10 != divisor)
-               printf_s("Ҽ");
+               printf_s("壹");
             else {
                 if (decimals_flag)
-                   printf_s("Ҽ");
+                   printf_s("壹");
             }
             true_flag = 1;
             break;
         case 2:
-           printf_s("��");
+           printf_s("贰");
             true_flag = 1;
             break;
         case 3:
-           printf_s("��");
+           printf_s("叁");
             true_flag = 1;
             break;
         case 4:
-           printf_s("��");
+           printf_s("肆");
             true_flag = 1;
             break;
         case 5:
-           printf_s("��");
+           printf_s("伍");
             true_flag = 1;
             break;
         case 6:
-           printf_s("½");
+           printf_s("陆");
             true_flag = 1;
             break;
         case 7:
-           printf_s("��");
+           printf_s("柒");
             true_flag = 1;
             break;
         case 8:
-           printf_s("��");
+           printf_s("捌");
             true_flag = 1;
             break;
         case 9:
-           printf_s("��");
+           printf_s("玖");
             true_flag = 1;
             break;
         }
         if (1000 == divisor && 0 != merchant) {
-           printf_s("Ǫ");
+           printf_s("仟");
         }
         else if (100 == divisor && 0 != merchant) {
-           printf_s("��");
+           printf_s("佰");
         }
         else if (10 == divisor && 0 != merchant) {
             if (decimals_flag) {
-               printf_s("��");
+               printf_s("角");
             }
             else {
-               printf_s("ʰ");
+               printf_s("拾");
             }
         }
         else if (1 == divisor && 0 != merchant) {
             if (decimals_flag) {
-               printf_s("��");
+               printf_s("分");
             }
         }
         divisor = divisor / 10;
     } while (redminer && (merchant = redminer));
     if (e_magnitude == CONSTANT_E) {
         if (!decimals_flag) {
-           printf_s("Ԫ");
+           printf_s("元");
         }
     }
     else if (e_magnitude == TEN_THOUSAND_E) {
-       printf_s("��");
+       printf_s("万");
     }
     else if (e_magnitude == HUNDRED_MILLION_E) {
-       printf_s("��");
+       printf_s("亿");
     }
     else if (e_magnitude == HUNDRED_MILLION_E) {
-       printf_s("��");
+       printf_s("兆");
     }
 }
 
@@ -123,8 +130,8 @@ void tran(double num)
     unsigned long long int n = (unsigned long long int)num;
     unsigned int little_ten_thousan = 0;
     ORDER_OF_MAGNITUDE_E e_magnitude = 0;
-    unsigned int redminer = 0;// ����
-    unsigned int merchant = n; //��
+    unsigned int redminer = 0;// 余数
+    unsigned int merchant = n; //商
     unsigned int result = 0;
     unsigned int decimals = 0;
     double tmp = 0.0;
@@ -153,7 +160,7 @@ void tran(double num)
         }
         deal_ten_thousand(e_magnitude, 0, result);
     } while (merchant);
-    decimals = (unsigned int)((num - (double)n + 0.001) * 100);//���־��о�������
+    decimals = (unsigned int)((num - (double)n + 0.001) * 100);//发现具有精度问题
     deal_ten_thousand(CONSTANT_E, 1, decimals);
 }
 
@@ -162,7 +169,7 @@ int main(int argc, char* argv[])
     double num;
     while (scanf_s("%lf", &num) != EOF)
     {
-       printf_s("�����");
+       printf_s("人民币");
         tran(num);
        printf_s("\n");
     }
