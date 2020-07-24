@@ -116,6 +116,7 @@ void deal_ten_thousand(ORDER_OF_MAGNITUDE_E e_magnitude, int decimals_flag, unsi
 }
 
 
+
 void tran(double num)
 {
     char buff[1024] = { 0 };
