@@ -15,12 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SM.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="SM.c">
+    <ClCompile Include="源.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
